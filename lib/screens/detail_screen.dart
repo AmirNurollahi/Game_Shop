@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_game_shop/const.dart';
 import 'package:flutter_game_shop/models/game_model.dart';
+import 'package:flutter_game_shop/screens/image_screen.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, required this.gameModel});
@@ -134,9 +135,9 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          customImage(gameModel.image1),
-                          customImage(gameModel.image2),
-                          customImage(gameModel.image3),
+                          CustomImage(context, gameModel.image1),
+                          CustomImage(context, gameModel.image2),
+                          CustomImage(context, gameModel.image3),
                         ],
                       ),
                       SizedBox(height: 30),
@@ -166,14 +167,26 @@ class DetailScreen extends StatelessWidget {
     );
   }
 
-  ClipRRect customImage(String imagePath) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.asset(
-        imagePath,
-        width: 85,
-        height: 85,
-        fit: BoxFit.cover,
+  GestureDetector CustomImage(BuildContext context, String imagePath) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ImageScreen(imagePath: imagePath),
+          ),
+        );
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Hero(
+          tag: imagePath,
+          child: Image.asset(
+            imagePath,
+            width: 85,
+            height: 85,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }
